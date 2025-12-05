@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>笔记 on cisha</title>
+        <link>https://cisha.github.io/categories/%E7%AC%94%E8%AE%B0/</link>
+        <description>Recent content in 笔记 on cisha</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>zh-cn</language>
+        <lastBuildDate>Fri, 05 Dec 2025 00:00:00 +0000</lastBuildDate><atom:link href="https://cisha.github.io/categories/%E7%AC%94%E8%AE%B0/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>创建博客</title>
+        <link>https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/</link>
+        <pubDate>Fri, 05 Dec 2025 00:00:00 +0000</pubDate>
+        
+        <guid>https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/</guid>
+        <description>&lt;img src="https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/3.jpg" alt="Featured image of post 创建博客" /&gt;&lt;h2 id=&#34;一优缺点&#34;&gt;一、优缺点
+&lt;/h2&gt;&lt;p&gt;Hugo + GitHub Pages是静态页面，优缺点十分明显：
+优点
+1）完全免费，GitHub Pages 免费托管，自定义域名也免费并且无流量费用；
+2）因为Hugo生成的都是纯HTML，无需数据库查询，而且GitHub 全球 CDN 加速，所以访问速度很快；
+3）超级稳定，只要GitHub不倒闭，你的博客就在，而且无需担心服务器维护、宕机等问题；
+4）搭建简单。
+缺点
+5）动态功能受限，无法直接实习用户评论系统、文章点赞功能、用户登录系统等；
+6）每次更新都需要本地编辑文章，并且等待（2到5分钟构建）。
+不过总而言之，对于写个人博客和分享学习笔记是很好的选择。&lt;/p&gt;
+&lt;h2 id=&#34;二搭建流程&#34;&gt;二、搭建流程
+&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;    1）安装必要的环境
+
+    1.*[安装Git:](https://git-scm.com/downloadshttps://git-scm.com/downloads)*
+	
+    2.*[安装Hugo:](https://github.com/gohugoio/hugo/releases) *
+	![图1](1.jpg)
+    注意下载如上图这个版本，不然容易报错
+    解压，把hugo.exe放到C:\Windows\System32\
+    2）使用Git Bash操作
+    在桌面右键选择“Git Bash Here”，打开指令窗口，如下图：
+	![图2](2.jpg)
+	然后输入hugo new site my_blog, 创建Hugo项目，输入cd my_blog, 进入my_blog文件夹，再输入git init初始化Git，接着添加主题。
+    *[](https://themes.gohugo.io/)* 可以在这个网站选择主题，这里以*[](https://github.com/CaiJimmy/hugo-theme-stack* 这个主题为例，输入git submodule add https://github.com/CaiJimmy/hugo-theme-stack themes/hugo-theme-stack themes/hugo-theme-stack安装主题,之后打开hugo.toml,修改内容：
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;baseURL = &amp;lsquo;https://你的用户名.github.io/&amp;rsquo;
+languageCode = &amp;lsquo;zh-cn&amp;rsquo;
+title = &amp;lsquo;我的个人博客&amp;rsquo;
+theme = &amp;lsquo;ananke&amp;rsquo;
+然后在Git Bash输入hugo server -D，即可完成本地部署，可以在浏览器访问http://localhost:1313查看效果，对布局页面进行修改。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&#34;三部署到github-pages&#34;&gt;三、部署到GitHub Pages
+&lt;/h2&gt;&lt;pre&gt;&lt;code&gt;1. 本地编辑文章
+2. git add .
+3. git commit -m &amp;quot;update&amp;quot;
+4. git push
+5. 等待构建（2-5分钟）
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

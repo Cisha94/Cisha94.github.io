@@ -223,26 +223,58 @@
 不过总而言之，对于写个人博客和分享学习笔记是很好的选择。</p>
 <h2 id="二搭建流程">二、搭建流程
 </h2><pre><code>    1）安装必要的环境
-
-    1.*[安装Git:](https://git-scm.com/downloadshttps://git-scm.com/downloads)*
-	
-    2.*[安装Hugo:](https://github.com/gohugoio/hugo/releases) *
-	![图1](1.jpg)
-    注意下载如上图这个版本，不然容易报错
-    解压，把hugo.exe放到C:\Windows\System32\
-    2）使用Git Bash操作
-    在桌面右键选择“Git Bash Here”，打开指令窗口，如下图：
-	![图2](2.jpg)
-	然后输入hugo new site my_blog, 创建Hugo项目，输入cd my_blog, 进入my_blog文件夹，再输入git init初始化Git，接着添加主题。
-    *[](https://themes.gohugo.io/)* 可以在这个网站选择主题，这里以*[](https://github.com/CaiJimmy/hugo-theme-stack* 这个主题为例，输入git submodule add https://github.com/CaiJimmy/hugo-theme-stack themes/hugo-theme-stack themes/hugo-theme-stack安装主题,之后打开hugo.toml,修改内容：
 </code></pre>
+<blockquote>
+<p><em><a class="link" href="https://git-scm.com/downloadshttps://git-scm.com/downloads"  target="_blank" rel="noopener"
+    >1.安装Git</a></em></p>
+<p><em><a class="link" href="https://github.com/gohugoio/hugo/releases"  target="_blank" rel="noopener"
+    >2.安装Hugo</a></em></p>
+</blockquote>
+<p><img src="/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/1.jpg"
+	width="437"
+	height="58"
+	srcset="/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/1_hu_e0384768b9d47bf7.jpg 480w, /posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/1_hu_9798fef725cf8c89.jpg 1024w"
+	loading="lazy"
+	
+		alt="figure1"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="753"
+		data-flex-basis="1808px"
+	
+>
+注意下载如上图这个版本，不然容易报错
+解压，把hugo.exe放到C:\Windows\System32<br>
+2）使用Git Bash操作
+在桌面右键选择“Git Bash Here”，打开指令窗口，如下图：
+<img src="/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/2.jpg"
+	width="746"
+	height="450"
+	srcset="/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/2_hu_3c03a2ce1e3a421a.jpg 480w, /posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/2_hu_e4609dcf36821416.jpg 1024w"
+	loading="lazy"
+	
+		alt="图2"
+	
+	
+		class="gallery-image" 
+		data-flex-grow="165"
+		data-flex-basis="397px"
+	
+>
+然后输入hugo new site my_blog, 创建Hugo项目，输入cd my_blog, 进入my_blog文件夹，再输入git init初始化Git，接着添加主题。
+<em><a class="link" href="https://themes.gohugo.io/"  target="_blank" rel="noopener"
+    ></a></em> 可以在这个网站选择主题，这里以*[](<a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack"  target="_blank" rel="noopener"
+    >https://github.com/CaiJimmy/hugo-theme-stack</a>* 这个主题为例，输入git submodule add <a class="link" href="https://github.com/CaiJimmy/hugo-theme-stack"  target="_blank" rel="noopener"
+    >https://github.com/CaiJimmy/hugo-theme-stack</a> themes/hugo-theme-stack themes/hugo-theme-stack安装主题,之后打开hugo.toml,修改内容：</p>
 <blockquote>
 <p>baseURL = &lsquo;https://你的用户名.github.io/&rsquo;
 languageCode = &lsquo;zh-cn&rsquo;
 title = &lsquo;我的个人博客&rsquo;
-theme = &lsquo;ananke&rsquo;
-然后在Git Bash输入hugo server -D，即可完成本地部署，可以在浏览器访问http://localhost:1313查看效果，对布局页面进行修改。</p>
+theme = &lsquo;ananke&rsquo;</p>
 </blockquote>
+<pre><code>	然后在Git Bash输入hugo server -D，即可完成本地部署，可以在浏览器访问http://localhost:1313查看效果，对布局页面进行修改。
+</code></pre>
 <h2 id="三部署到github-pages">三、部署到GitHub Pages
 </h2><pre><code>1. 本地编辑文章
 2. git add .
@@ -322,51 +354,56 @@ theme = &lsquo;ananke&rsquo;
      
     
         
-    <script src="https://utteranc.es/client.js" 
-        repo="Cisha94/Cisha94.github.io"
-        issue-term="pathname"
-        
-        crossorigin="anonymous"
-        async
-        >
-</script>
-
-<style>
-    .utterances {
-        max-width: unset;
-    }
-</style>
-
+    <script
+    src="https://giscus.app/client.js"
+    data-repo="Cisha94/Cisha94.github.io"
+    data-repo-id="R_kgDOQjAKaw"
+    data-category="Comments"
+    data-category-id="DIC_kwDOQjAKa84CzdTj"
+    data-mapping="pathname"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="bottom"
+    data-theme="light"
+    data-lang="zh-CN"
+    data-loading=""
+    crossorigin="anonymous"
+    async
+></script>
 <script>
-    let utterancesLoaded = false;
-
-    function setUtterancesTheme(theme) {
-        let utterances = document.querySelector('.utterances iframe');
-        if (utterances) {
-            utterances.contentWindow.postMessage(
+    function setGiscusTheme(theme) {
+        let giscus = document.querySelector("iframe.giscus-frame");
+        if (giscus) {
+            giscus.contentWindow.postMessage(
                 {
-                    type: 'set-theme',
-                    theme: `github-${theme}`
+                    giscus: {
+                        setConfig: {
+                            theme: theme,
+                        },
+                    },
                 },
-                'https://utteranc.es'
+                "https://giscus.app"
             );
         }
     }
 
-    addEventListener('message', event => {
-        if (event.origin !== 'https://utteranc.es') return;
+    (function () {
+        addEventListener("message", (e) => {
+            if (event.origin !== "https://giscus.app") return;
+            handler();
+        });
+        window.addEventListener("onColorSchemeChange", handler);
 
-        
-        utterancesLoaded = true;
-        setUtterancesTheme(document.documentElement.dataset.scheme)
-    });
-
-    window.addEventListener('onColorSchemeChange', (e) => {
-        if (!utterancesLoaded) return;
-        setUtterancesTheme(e.detail)
-    })
+        function handler() {
+            if (document.documentElement.dataset.scheme === "light") {
+                setGiscusTheme('light');
+            } else {
+                setGiscusTheme('dark_dimmed');
+            }
+        }
+    })();
 </script>
-
 
     
 

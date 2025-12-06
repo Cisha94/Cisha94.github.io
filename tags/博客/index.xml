@@ -100,26 +100,58 @@
 不过总而言之，对于写个人博客和分享学习笔记是很好的选择。&lt;/p&gt;
 &lt;h2 id=&#34;二搭建流程&#34;&gt;二、搭建流程
 &lt;/h2&gt;&lt;pre&gt;&lt;code&gt;    1）安装必要的环境
-
-    1.*[安装Git:](https://git-scm.com/downloadshttps://git-scm.com/downloads)*
-	
-    2.*[安装Hugo:](https://github.com/gohugoio/hugo/releases) *
-	![图1](1.jpg)
-    注意下载如上图这个版本，不然容易报错
-    解压，把hugo.exe放到C:\Windows\System32\
-    2）使用Git Bash操作
-    在桌面右键选择“Git Bash Here”，打开指令窗口，如下图：
-	![图2](2.jpg)
-	然后输入hugo new site my_blog, 创建Hugo项目，输入cd my_blog, 进入my_blog文件夹，再输入git init初始化Git，接着添加主题。
-    *[](https://themes.gohugo.io/)* 可以在这个网站选择主题，这里以*[](https://github.com/CaiJimmy/hugo-theme-stack* 这个主题为例，输入git submodule add https://github.com/CaiJimmy/hugo-theme-stack themes/hugo-theme-stack themes/hugo-theme-stack安装主题,之后打开hugo.toml,修改内容：
 &lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://git-scm.com/downloadshttps://git-scm.com/downloads&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;1.安装Git&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://github.com/gohugoio/hugo/releases&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;2.安装Hugo&lt;/a&gt;&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;&lt;img src=&#34;https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/1.jpg&#34;
+	width=&#34;437&#34;
+	height=&#34;58&#34;
+	srcset=&#34;https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/1_hu_e0384768b9d47bf7.jpg 480w, https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/1_hu_9798fef725cf8c89.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;figure1&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;753&#34;
+		data-flex-basis=&#34;1808px&#34;
+	
+&gt;
+注意下载如上图这个版本，不然容易报错
+解压，把hugo.exe放到C:\Windows\System32&lt;br&gt;
+2）使用Git Bash操作
+在桌面右键选择“Git Bash Here”，打开指令窗口，如下图：
+&lt;img src=&#34;https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/2.jpg&#34;
+	width=&#34;746&#34;
+	height=&#34;450&#34;
+	srcset=&#34;https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/2_hu_3c03a2ce1e3a421a.jpg 480w, https://cisha.github.io/posts/%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2/2_hu_e4609dcf36821416.jpg 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;图2&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;165&#34;
+		data-flex-basis=&#34;397px&#34;
+	
+&gt;
+然后输入hugo new site my_blog, 创建Hugo项目，输入cd my_blog, 进入my_blog文件夹，再输入git init初始化Git，接着添加主题。
+&lt;em&gt;&lt;a class=&#34;link&#34; href=&#34;https://themes.gohugo.io/&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;&lt;/a&gt;&lt;/em&gt; 可以在这个网站选择主题，这里以*[](&lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/CaiJimmy/hugo-theme-stack&lt;/a&gt;* 这个主题为例，输入git submodule add &lt;a class=&#34;link&#34; href=&#34;https://github.com/CaiJimmy/hugo-theme-stack&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;https://github.com/CaiJimmy/hugo-theme-stack&lt;/a&gt; themes/hugo-theme-stack themes/hugo-theme-stack安装主题,之后打开hugo.toml,修改内容：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;baseURL = &amp;lsquo;https://你的用户名.github.io/&amp;rsquo;
 languageCode = &amp;lsquo;zh-cn&amp;rsquo;
 title = &amp;lsquo;我的个人博客&amp;rsquo;
-theme = &amp;lsquo;ananke&amp;rsquo;
-然后在Git Bash输入hugo server -D，即可完成本地部署，可以在浏览器访问http://localhost:1313查看效果，对布局页面进行修改。&lt;/p&gt;
+theme = &amp;lsquo;ananke&amp;rsquo;&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;	然后在Git Bash输入hugo server -D，即可完成本地部署，可以在浏览器访问http://localhost:1313查看效果，对布局页面进行修改。
+&lt;/code&gt;&lt;/pre&gt;
 &lt;h2 id=&#34;三部署到github-pages&#34;&gt;三、部署到GitHub Pages
 &lt;/h2&gt;&lt;pre&gt;&lt;code&gt;1. 本地编辑文章
 2. git add .

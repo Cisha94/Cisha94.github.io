@@ -284,49 +284,22 @@ M =
 为了降低密钥重用的风险，需要对密钥进行拓展，这里使用ShiftRows和SubBytes来保证每一轮使用的密钥不同，这里给出核心代码：
 </code></pre>
 <blockquote>
-<p>assign {k0, k1, k2, k3} = in;</p>
-<p>assign v0 = {k0[31:24] ^ rcon, k0[23:0]};</p>
-</blockquote>
-<blockquote>
-<p>assign v1 = v0 ^ k1;</p>
-</blockquote>
-<blockquote>
-<p>assign v2 = v1 ^ k2;</p>
-</blockquote>
-<blockquote>
-<p>assign v3 = v2 ^ k3;</p>
-</blockquote>
-<blockquote>
-<p>always @ (posedge clk)</p>
-</blockquote>
-<blockquote>
-<pre><code>  {k0a, k1a, k2a, k3a} &lt;= {v0, v1, v2, v3};
-</code></pre>
-</blockquote>
-<blockquote>
-<p>S4</p>
-</blockquote>
-<blockquote>
-<pre><code>  S4_0 (clk, {k3[23:0], k3[31:24]}, k4a);
-</code></pre>
-<p>assign k0b = k0a ^ k4a;</p>
-</blockquote>
-<blockquote>
-<p>assign k1b = k1a ^ k4a;</p>
-</blockquote>
-<blockquote>
-<p>assign k2b = k2a ^ k4a;</p>
-</blockquote>
-<blockquote>
-<p>assign k3b = k3a ^ k4a;</p>
-</blockquote>
-<blockquote>
-<p>always @ (posedge clk)</p>
-</blockquote>
-<blockquote>
-<pre><code>  out_1 &lt;= {k0b, k1b, k2b, k3b};
-</code></pre>
-<p>assign out_2 = {k0b, k1b, k2b, k3b};
+<p>assign {k0, k1, k2, k3} = in; <br>
+assign v0 = {k0[31:24] ^ rcon, k0[23:0]};
+assign v1 = v0 ^ k1;
+assign v2 = v1 ^ k2;
+assign v3 = v2 ^ k3;
+always @ (posedge clk)
+{k0a, k1a, k2a, k3a} &lt;= {v0, v1, v2, v3};
+S4
+S4_0 (clk, {k3[23:0], k3[31:24]}, k4a);
+assign k0b = k0a ^ k4a;
+assign k1b = k1a ^ k4a;
+assign k2b = k2a ^ k4a;
+assign k3b = k3a ^ k4a;</p>
+<p>always @ (posedge clk)
+out_1 &lt;= {k0b, k1b, k2b, k3b};
+assign out_2 = {k0b, k1b, k2b, k3b};
 此外，为了进一步提升加密速度，这里使用T-box代替S-box。T-box进一步将MixColunms也合并到查找表里，减少需要的计算。</p>
 </blockquote>
 <h1 id="五-aes的ctr操作模式实现">五、 AES的CTR操作模式实现
@@ -351,25 +324,17 @@ AES主要有六种操作模式：ECB、CBC、CTR、GCM、XTS和CCM。它们的�
 综合以上特点，这里选用CTR操作模式用作RAM的数据加密，接下来详细讲解一下CTR模式。
 CTR是一种将分组密码转换为流密码的操作模式。它不是直接加密数据，而是生成密钥流，然后与明文进行异或操作。因此实现起来很简单，通过AES的核心加密算法生成密钥流然后再与明文异或即可实现CTR操作模式，下面是关键代码展示：</p>
 <blockquote>
-<p>case (current_state)</p>
-</blockquote>
-<pre><code>            IDLE: begin
-</code></pre>
-<blockquote>
-<pre><code>              done &lt;= 1'b0;
-
-               if (start) begin
-
-                   $display(&quot;start success...&quot;);
-
-                   current_state &lt;= ENCRYPTING;
-
-                   encrypt_start &lt;= 1'b1;
-                   ready &lt;= 1'b0;
-               end
-           end
-           
-           ENCRYPTING: begin
+<p>case (current_state)
+IDLE: begin
+done &lt;= 1&rsquo;b0;
+if (start) begin
+$display(&ldquo;start success&hellip;&rdquo;);
+current_state &lt;= ENCRYPTING;
+encrypt_start &lt;= 1&rsquo;b1;
+ready &lt;= 1&rsquo;b0;
+end
+end</p>
+<pre><code>           ENCRYPTING: begin
                encrypt_start &lt;= 1'b0;
                // 假设 AES 加密完成信号有效
                if (encrypt_done) begin

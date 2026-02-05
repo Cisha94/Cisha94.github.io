@@ -117,9 +117,10 @@ AES主要有六种操作模式：ECB、CBC、CTR、GCM、XTS和CCM。它们的�
 		data-flex-grow=&#34;269&#34;
 		data-flex-basis=&#34;647px&#34;
 	
-&gt;
-综合以上特点，这里选用CTR操作模式用作RAM的数据加密，接下来详细讲解一下CTR模式。
-CTR是一种将分组密码转换为流密码的操作模式。它不是直接加密数据，而是生成密钥流，然后与明文进行异或操作。因此实现起来很简单，通过AES的核心加密算法生成密钥流然后再与明文异或即可实现CTR操作模式，下面是关键代码展示：&lt;/p&gt;
+&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;综合以上特点，这里选用CTR操作模式用作RAM的数据加密，接下来详细讲解一下CTR模式。
+CTR是一种将分组密码转换为流密码的操作模式。它不是直接加密数据，而是生成密钥流，然后与明文进行异或操作。因此实现起来很简单，通过AES的核心加密算法生成密钥流然后再与明文异或即可实现CTR操作模式，下面是关键代码展示：
+&lt;/code&gt;&lt;/pre&gt;
 &lt;blockquote&gt;
 &lt;p&gt;case (current_state)
 IDLE: begin

@@ -79,21 +79,113 @@ M =
 &lt;/code&gt;&lt;/pre&gt;
 &lt;blockquote&gt;
 &lt;p&gt;assign {k0, k1, k2, k3} = in;&lt;/p&gt;
-&lt;p&gt;assign v0 = {k0[31:24] ^ rcon, k0[23:0]};
-assign v1 = v0 ^ k1;
-assign v2 = v1 ^ k2;
-assign v3 = v2 ^ k3;&lt;/p&gt;
-&lt;p&gt;always @ (posedge clk)
-{k0a, k1a, k2a, k3a} &amp;lt;= {v0, v1, v2, v3};&lt;/p&gt;
-&lt;p&gt;S4
-S4_0 (clk, {k3[23:0], k3[31:24]}, k4a);&lt;/p&gt;
-&lt;p&gt;assign k0b = k0a ^ k4a;
-assign k1b = k1a ^ k4a;
-assign k2b = k2a ^ k4a;
-assign k3b = k3a ^ k4a;&lt;/p&gt;
-&lt;p&gt;always @ (posedge clk)
-out_1 &amp;lt;= {k0b, k1b, k2b, k3b};&lt;/p&gt;
-&lt;p&gt;assign out_2 = {k0b, k1b, k2b, k3b};&lt;/p&gt;
+&lt;p&gt;assign v0 = {k0[31:24] ^ rcon, k0[23:0]};&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign v1 = v0 ^ k1;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign v2 = v1 ^ k2;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign v3 = v2 ^ k3;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;always @ (posedge clk)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;  {k0a, k1a, k2a, k3a} &amp;lt;= {v0, v1, v2, v3};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;S4&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;  S4_0 (clk, {k3[23:0], k3[31:24]}, k4a);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;assign k0b = k0a ^ k4a;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign k1b = k1a ^ k4a;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign k2b = k2a ^ k4a;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign k3b = k3a ^ k4a;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;p&gt;always @ (posedge clk)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;  out_1 &amp;lt;= {k0b, k1b, k2b, k3b};
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;assign out_2 = {k0b, k1b, k2b, k3b};
+此外，为了进一步提升加密速度，这里使用T-box代替S-box。T-box进一步将MixColunms也合并到查找表里，减少需要的计算。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h1 id=&#34;五-aes的ctr操作模式实现&#34;&gt;五、 AES的CTR操作模式实现
+&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;四实现的只是AES的核心加密，单独的分组密码仅适用于对一个固定长度的位组（称为一个块）进行安全的密码学转换，就像汽车里的发动机，还需要底盘、变速箱等配件才能跑起来。
+工作模式描述了如何重复应用密码的单块操作，以安全地转换大于一个块的数据量。所以需要将AES加密实际应用于数据加密，还需要实现操作模式。
+AES主要有六种操作模式：ECB、CBC、CTR、GCM、XTS和CCM。它们的特点如下表1：
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://cisha.github.io/posts/aes_verilog/%E8%A1%A81.png&#34;
+	width=&#34;583&#34;
+	height=&#34;216&#34;
+	srcset=&#34;https://cisha.github.io/posts/aes_verilog/%E8%A1%A81_hu_c82558fff3211dfb.png 480w, https://cisha.github.io/posts/aes_verilog/%E8%A1%A81_hu_94e4e13393b9fbdb.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;diagram1&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;269&#34;
+		data-flex-basis=&#34;647px&#34;
+	
+&gt;
+综合以上特点，这里选用CTR操作模式用作RAM的数据加密，接下来详细讲解一下CTR模式。
+CTR是一种将分组密码转换为流密码的操作模式。它不是直接加密数据，而是生成密钥流，然后与明文进行异或操作。因此实现起来很简单，通过AES的核心加密算法生成密钥流然后再与明文异或即可实现CTR操作模式，下面是关键代码展示：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;case (current_state)&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;            IDLE: begin
+&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;              done &amp;lt;= 1&#39;b0;
+
+               if (start) begin
+
+                   $display(&amp;quot;start success...&amp;quot;);
+
+                   current_state &amp;lt;= ENCRYPTING;
+
+                   encrypt_start &amp;lt;= 1&#39;b1;
+                   ready &amp;lt;= 1&#39;b0;
+               end
+           end
+           
+           ENCRYPTING: begin
+               encrypt_start &amp;lt;= 1&#39;b0;
+               // 假设 AES 加密完成信号有效
+               if (encrypt_done) begin
+                   // CTR 模式：密文 = 明文 XOR 密钥流
+                  // $display(&amp;quot;keystream_p2:%h&amp;quot;, keystream_p2);
+                   ciphertext &amp;lt;= plaintext ^ keystream_p2;
+                   current_state &amp;lt;= DONE;
+                   done &amp;lt;= 1&#39;b1;
+               end
+           end
+           
+           DONE: begin
+               // 计数器递增（为下一个块准备）
+               counter &amp;lt;= counter + 1;
+               ready &amp;lt;= 1&#39;b1;
+               current_state &amp;lt;= IDLE;
+               encrypt_done_r &amp;lt;= 0;
+               if(counter == 128&#39;hffff_ffff_ffff_ffff_ffff_ffff_ffff_ffff)
+               counter &amp;lt;= nonce;
+           end
+       endcase
+&lt;/code&gt;&lt;/pre&gt;
 &lt;/blockquote&gt;
 </description>
         </item>

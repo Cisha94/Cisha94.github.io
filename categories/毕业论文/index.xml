@@ -32,7 +32,10 @@ Systemverilog是verilog的拓展，在其基础上提高了抽象层次，同时
 		data-flex-basis=&#34;214px&#34;
 	
 &gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;从结果可以看出该算法加密比解密快数倍。并且和纯软件实现相比（比如OpenSSL实现一般为10到30 cycles/byte）快了数十倍，和硬件指令集（一般0.6到1.3 cycles/byte）也快了不少，虽然不如常见的高性能FPGA IP核（一般1 cycle/block），不过也属于高性能加密模块了，非常适用于高速存储加密中。
+&lt;pre&gt;&lt;code&gt;从结果可以看出该算法加密比解密快数倍。并且和纯软件实现相比（比如OpenSSL实现一般为10到30 cycles/byte）快了数十倍，
+和硬件指令集（一般0.6到1.3 cycles/byte）也快了不少，
+虽然不如常见的高性能FPGA IP核（一般1 cycle/block），
+不过也属于高性能加密模块了，非常适用于高速存储加密中。
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>

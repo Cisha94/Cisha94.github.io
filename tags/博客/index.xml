@@ -6,19 +6,48 @@
         <description>Recent content in 博客 on cisha</description>
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
-        <lastBuildDate>Fri, 06 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://cisha.github.io/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" /><item>
+        <lastBuildDate>Mon, 09 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://cisha.github.io/tags/%E5%8D%9A%E5%AE%A2/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>AES_Verilog</title>
+        <link>https://cisha.github.io/posts/ahb_relation/</link>
+        <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
+        
+        <guid>https://cisha.github.io/posts/ahb_relation/</guid>
+        <description>&lt;img src="https://cisha.github.io/3.jpg" alt="Featured image of post AES_Verilog" /&gt;&lt;h1 id=&#34;ahb介绍&#34;&gt;AHB介绍
+&lt;/h1&gt;&lt;pre&gt;&lt;code&gt;AHB是ARM 公司提出的 AMBA 总线协议家族中的一员，它的全称是 Advanced High-performance Bus。
+它是目前片上系统中用于连接高性能、高时钟频率模块（如 CPU、DSP、DMA、片上内存等）的事实标准。
+AHB最显著的特点是地址与数据相位的重叠。当前传输的数据阶段与下一传输的地址阶段并行执行，消除了总线空闲周期，实现了真正的流水线吞吐。在现代SoC设计中，AHB通常作为核心总线层级，下图是架构示意：
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://cisha.github.io/posts/ahb_relation/AHB%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84.png&#34;
+	width=&#34;3253&#34;
+	height=&#34;3247&#34;
+	srcset=&#34;https://cisha.github.io/posts/ahb_relation/AHB%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84_hu_7cdcf1a3eba01e6a.png 480w, https://cisha.github.io/posts/ahb_relation/AHB%E7%B3%BB%E7%BB%9F%E6%9E%B6%E6%9E%84_hu_47601e0c1d09b468.png 1024w&#34;
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;figure1&#34;
+	
+	
+		class=&#34;gallery-image&#34; 
+		data-flex-grow=&#34;100&#34;
+		data-flex-basis=&#34;240px&#34;
+	
+&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;作为经过20余年产业验证的成熟标准，AHB凭借其简洁而强大的设计，依然是众多高性能嵌入式系统的首选互连方案，在性能、面积和功耗之间实现了卓越平衡。
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        <item>
         <title>AES_Performance</title>
         <link>https://cisha.github.io/posts/aes_performance/</link>
         <pubDate>Fri, 06 Feb 2026 00:00:00 +0000</pubDate>
         
         <guid>https://cisha.github.io/posts/aes_performance/</guid>
-        <description>&lt;img src="https://cisha.github.io/3.jpg" alt="Featured image of post AES_Performance" /&gt;&lt;pre&gt;&lt;code&gt;此次测试主要关注该AES算法加解密速度的性能，所以该测试主要是统计了该AES算法的吞吐量和延迟。
+        <description>&lt;img src="https://cisha.github.io/3.jpg" alt="Featured image of post AES_Performance" /&gt;&lt;p&gt;##一、Systemverilog仿真AES算法
+此次测试主要关注该AES算法加解密速度的性能，所以该测试主要是统计了该AES算法的吞吐量和延迟。
 Systemverilog是verilog的拓展，在其基础上提高了抽象层次，同时引入了继承和多态，建立了可重用的验证IP和方法学，形成了一个完整的、标准化的、可扩展的验证生态系统，大大的提升了调试效率，显著的降低了验证成本和时间。因此这里选用Systemverilog对AES算法的性能进行验证。
 延迟的测试很简单，在数据开始加密时记录一个时间戳，在完成加密时再记录一个时间戳，便可得到数据加密所需时间。
 然后根据数据位宽即可计算得出吞吐量：吞吐量 = 数据位宽 / 加密时间。解密同理。
 下面是测试结果:
-&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;https://cisha.github.io/posts/aes_performance/figure1.png&#34;
+&lt;img src=&#34;https://cisha.github.io/posts/aes_performance/figure1.png&#34;
 	width=&#34;714&#34;
 	height=&#34;798&#34;
 	srcset=&#34;https://cisha.github.io/posts/aes_performance/figure1_hu_5449444d35f9bcfb.png 480w, https://cisha.github.io/posts/aes_performance/figure1_hu_26d3b2091de69ead.png 1024w&#34;
@@ -36,6 +65,55 @@ Systemverilog是verilog的拓展，在其基础上提高了抽象层次，同时
 和硬件指令集（一般0.6到1.3 cycles/byte）也快了不少，
 虽然不如常见的高性能FPGA IP核（一般1 cycle/block），
 不过也属于高性能加密模块了，非常适用于高速存储加密中。
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;##二、构建AES参数化性能模型
+性能模型是一种抽象的数学或计算框架，用于预测和评估系统在不同条件下的行为特征。它就像是系统的&amp;quot;数字孪生&amp;quot;——通过在软件层面构建关键性能指标（如延迟、吞吐量、资源利用率）与系统参数（如数据规模、硬件配置、算法选择）之间的映射关系，让我们能够在实际部署前就对系统行为有清晰的预期。
+我这里实现的模型将AHB的逻辑给忽略了，因为这并不对数据的AES加密解密和写入读出RAM的延迟有影响。该性能模型通过4个功能模块组成：1）AES加密模块：实现AES加密模拟；2）AES解密模块：实现AES解密模拟；3）RAM模型模块：模拟存储器的读写行为，包括访问延迟和数据保持；4）性能监控模块：实时采集和统计系统性能数据，监控指标包括加密延迟、解密延迟、RAM访问延迟、总处理时间和吞吐量。
+模型内部通过以下关键信号实现模块间通信：
+时钟域：
+clk：全局时钟信号，驱动所有同步逻辑
+reset_n：全局复位信号，低电平有效&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;控制通路：
+	encrypt_start → AES_Encrypt：触发加密操作
+	decrypt_start → AES_Decrypt：触发解密操作
+	aes_mode → AES_Encrypt/AES_Decrypt：选择加密/解密模式
+
+数据通路：
+	plaintext → AES_Encrypt：输入待加密数据
+	ciphertext → RAM：加密结果写入存储器
+	ram_data_out → AES_Decrypt：从RAM读取密文进行解密
+	decrypted_text：最终解密结果输出
+
+RAM接口：
+	ram_addr：读写地址
+	ram_write_en：写使能信号
+	ram_read_en：读使能信号
+	ram_write_done：写操作完成反馈
+	ram_read_done：读操作完成反馈
+	结构图如下：
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;https://cisha.github.io/%e6%80%a7%e8%83%bd%e6%a8%a1%e5%9e%8b%e7%bb%93%e6%9e%84.png&#34;
+	
+	
+	
+	loading=&#34;lazy&#34;
+	
+		alt=&#34;figure2&#34;
+	
+	
+&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;	下面我将介绍系统的控制流程：
+	1.初始化
+	等待复位释放，打印测试头信息。
+	2.测试循环（执行NUM_TESTS次）
+	该阶段按以下顺序执行：1）数据准备：调用generate_test_key()生成测试密钥，调用generate_test_data()生成测试明文，设置RAM访问地址；2）加密与存储：encrypt_start启动加密，轮询done信号等待加密完成，ram_write_en将密文写入RAM，轮询write_done信号等待写入完成，记录加密-写入延迟；3）读取与解密：ram_read_en从RAM读取密文，轮询read_done信号等待读取完成，decrypt_start启动解密，轮询done信号等待解密完成，记录读取-解密延迟；4）结果验证：比较decrypted_text与原始plaintext，输出验证结果；5）性能统计：计算各阶段耗时，计算吞吐量。
+	3.测试结束
+	打印最终统计报告，停止仿真。
+	还有值得注意的是我的数据生成策略：
+	为了确保测试的可重复性和覆盖性，模型采用确定性数据生成：
+	测试密钥：基于基础密钥(0x000102030405060708090A0B0C0D0E0F)与测试ID的线性组合进行异或运算
+	测试数据：每个字节由(test_id + 字节索引)与0xFF按位与生成，形成可预测的递增模式
+	RAM地址：使用test_id * 4 的步进模式，模拟非连续访问场景
 &lt;/code&gt;&lt;/pre&gt;
 </description>
         </item>

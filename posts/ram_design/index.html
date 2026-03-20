@@ -2,16 +2,16 @@
 <html lang="zh-cn" dir="ltr">
     <head><meta charset='utf-8'>
 <meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content="The performance of AES TEST">
-<title>AES_Performance</title>
+<title>RAM_design</title>
 
-<link rel='canonical' href='https://cisha.github.io/posts/aes_performance/'>
+<link rel='canonical' href='https://cisha.github.io/posts/ram_design/'>
 
-<link rel="stylesheet" href="/scss/style.min.4d36f8dc1fd48129e1635deb4b8eb2870fa09474f7280c4cb606d40b2526994b.css"><meta property='og:title' content="AES_Performance">
+<link rel="stylesheet" href="/scss/style.min.4d36f8dc1fd48129e1635deb4b8eb2870fa09474f7280c4cb606d40b2526994b.css"><meta property='og:title' content="RAM_design">
 <meta property='og:description' content="The performance of AES TEST">
-<meta property='og:url' content='https://cisha.github.io/posts/aes_performance/'>
+<meta property='og:url' content='https://cisha.github.io/posts/ram_design/'>
 <meta property='og:site_name' content='cisha'>
 <meta property='og:type' content='article'><meta property='article:section' content='Posts' /><meta property='article:tag' content='博客' /><meta property='article:tag' content='blog' /><meta property='article:published_time' content='2026-02-06T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2026-02-06T00:00:00&#43;00:00'/><meta property='og:image' content='https://cisha.github.io/3.jpg' />
-<meta name="twitter:title" content="AES_Performance">
+<meta name="twitter:title" content="RAM_design">
 <meta name="twitter:description" content="The performance of AES TEST"><meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:image" content='https://cisha.github.io/3.jpg' />
     </head>
@@ -129,9 +129,9 @@
     <article class="has-image main-article">
     <header class="article-header">
         <div class="article-image">
-            <a href="/posts/aes_performance/">
+            <a href="/posts/ram_design/">
                 
-                    <img src="/3.jpg" loading="lazy" alt="Featured image of post AES_Performance" />
+                    <img src="/3.jpg" loading="lazy" alt="Featured image of post RAM_design" />
                 
             </a>
         </div>
@@ -162,7 +162,7 @@
 
     <div class="article-title-wrapper">
         <h2 class="article-title">
-            <a href="/posts/aes_performance/">AES_Performance</a>
+            <a href="/posts/ram_design/">RAM_design</a>
         </h2>
     
         
@@ -218,84 +218,37 @@
     <section class="article-content">
     
     
-    <p>##一、Systemverilog仿真AES算法
-此次测试主要关注该AES算法加解密速度的性能，所以该测试主要是统计了该AES算法的吞吐量和延迟。
-Systemverilog是verilog的拓展，在其基础上提高了抽象层次，同时引入了继承和多态，建立了可重用的验证IP和方法学，形成了一个完整的、标准化的、可扩展的验证生态系统，大大的提升了调试效率，显著的降低了验证成本和时间。因此这里选用Systemverilog对AES算法的性能进行验证。
-延迟的测试很简单，在数据开始加密时记录一个时间戳，在完成加密时再记录一个时间戳，便可得到数据加密所需时间。
-然后根据数据位宽即可计算得出吞吐量：吞吐量 = 数据位宽 / 加密时间。解密同理。
-下面是测试结果:
-<img src="/posts/aes_performance/figure1.png"
-	width="714"
-	height="798"
-	srcset="/posts/aes_performance/figure1_hu_5449444d35f9bcfb.png 480w, /posts/aes_performance/figure1_hu_26d3b2091de69ead.png 1024w"
-	loading="lazy"
-	
-		alt="figure1"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="89"
-		data-flex-basis="214px"
-	
-></p>
-<pre><code>从结果可以看出该算法加密比解密快数倍。并且和纯软件实现相比（比如OpenSSL实现一般为10到30 cycles/byte）快了数十倍，
-和硬件指令集（一般0.6到1.3 cycles/byte）也快了不少，
-虽然不如常见的高性能FPGA IP核（一般1 cycle/block），
-不过也属于高性能加密模块了，非常适用于高速存储加密中。
-</code></pre>
-<p>##二、构建AES参数化性能模型
-性能模型是一种抽象的数学或计算框架，用于预测和评估系统在不同条件下的行为特征。它就像是系统的&quot;数字孪生&quot;——通过在软件层面构建关键性能指标（如延迟、吞吐量、资源利用率）与系统参数（如数据规模、硬件配置、算法选择）之间的映射关系，让我们能够在实际部署前就对系统行为有清晰的预期。
-我这里实现的模型将AHB的逻辑给忽略了，因为这并不对数据的AES加密解密和写入读出RAM的延迟有影响。该性能模型通过4个功能模块组成：1）AES加密模块：实现AES加密模拟；2）AES解密模块：实现AES解密模拟；3）RAM模型模块：模拟存储器的读写行为，包括访问延迟和数据保持；4）性能监控模块：实时采集和统计系统性能数据，监控指标包括加密延迟、解密延迟、RAM访问延迟、总处理时间和吞吐量。
-模型内部通过以下关键信号实现模块间通信：
-时钟域：
-clk：全局时钟信号，驱动所有同步逻辑
-reset_n：全局复位信号，低电平有效</p>
-<pre><code>控制通路：
-	encrypt_start → AES_Encrypt：触发加密操作
-	decrypt_start → AES_Decrypt：触发解密操作
-	aes_mode → AES_Encrypt/AES_Decrypt：选择加密/解密模式
-
-数据通路：
-	plaintext → AES_Encrypt：输入待加密数据
-	ciphertext → RAM：加密结果写入存储器
-	ram_data_out → AES_Decrypt：从RAM读取密文进行解密
-	decrypted_text：最终解密结果输出
-
-RAM接口：
-	ram_addr：读写地址
-	ram_write_en：写使能信号
-	ram_read_en：读使能信号
-	ram_write_done：写操作完成反馈
-	ram_read_done：读操作完成反馈
-	结构图如下：
-</code></pre>
-<p><img src="/posts/aes_performance/figure2.png"
-	width="451"
-	height="391"
-	srcset="/posts/aes_performance/figure2_hu_4a6ef81bf9b2b71f.png 480w, /posts/aes_performance/figure2_hu_af0e68dbe8587562.png 1024w"
-	loading="lazy"
-	
-		alt="figure2"
-	
-	
-		class="gallery-image" 
-		data-flex-grow="115"
-		data-flex-basis="276px"
-	
-></p>
-<pre><code>	下面我将介绍系统的控制流程：
-	1.初始化
-	等待复位释放，打印测试头信息。
-	2.测试循环（执行NUM_TESTS次）
-	该阶段按以下顺序执行：1）数据准备：调用generate_test_key()生成测试密钥，调用generate_test_data()生成测试明文，设置RAM访问地址；2）加密与存储：encrypt_start启动加密，轮询done信号等待加密完成，ram_write_en将密文写入RAM，轮询write_done信号等待写入完成，记录加密-写入延迟；3）读取与解密：ram_read_en从RAM读取密文，轮询read_done信号等待读取完成，decrypt_start启动解密，轮询done信号等待解密完成，记录读取-解密延迟；4）结果验证：比较decrypted_text与原始plaintext，输出验证结果；5）性能统计：计算各阶段耗时，计算吞吐量。
-	3.测试结束
-	打印最终统计报告，停止仿真。
-	还有值得注意的是我的数据生成策略：
-	为了确保测试的可重复性和覆盖性，模型采用确定性数据生成：
-	测试密钥：基于基础密钥(0x000102030405060708090A0B0C0D0E0F)与测试ID的线性组合进行异或运算
-	测试数据：每个字节由(test_id + 字节索引)与0xFF按位与生成，形成可预测的递增模式
-	RAM地址：使用test_id * 4 的步进模式，模拟非连续访问场景
-</code></pre>
+    <p>##一、设计概述
+本设计实现了一个基于AHB总线的RAM模块，数据位宽为128位，支持AHB协议中的基本读写操作。内部采用四块32位的BRAM实现128位数据存储，并集成AES-128CTR模式加密模块，实现数据的实时加密写入和解密读出。
+主要端口如下：</p>
+<blockquote>
+<p>端口名	方向	位宽	功能描述
+HCLK	输入	1	AHB 系统时钟
+HRESETn	输入	1	低有效异步复位
+HSELBRAM输入	1	模块选择信号
+HREADY	输入	1	总线就绪信号
+HTRANS	输入	2	传输类型（IDLE/BUSY/NONSEQ/SEQ）
+HSIZE	输入	2	传输数据宽度（字节数）
+HWRITE	输入	1	写使能
+HADDR	输入	AW:0	地址总线
+HWDATA	输入	127:0	写数据总线
+HREADYOUT输出	1	从设备就绪输出
+HRESP	输出	1	响应类型（OKAY/ERROR）
+HRDATA	输出	127:0	读数据总线</p>
+</blockquote>
+<p>##二、时序与控制逻辑
+使用 negedge HRESETn 或 posedge HCLK 进行异步复位与同步控制。
+通过 HWRITE_neg 和 done_encode_neg 边沿检测信号实现写操作与加密完成同步。
+输出 HREADYOUT 由加密模块的 ready_encode 和 ready_decode 共同控制，确保数据准备就绪。
+当模块被选中、总线就绪且传输类型为 NONSEQ 或 SEQ 时，传输有效。</p>
+<blockquote>
+<p>assign trn_valid = HSELBRAM &amp; HREADY &amp; HTRANS[1];
+写数据流程：
+1.写操作有效时，reg_wr_en 和 reg_haddr 在 HWRITE_neg 或 done_encode_neg 边沿锁存。
+2.加密完成后，根据锁存的使能与地址将 ciphertext 写入对应 BRAM。
+读数据流程：
+读操作直接从 BRAM 中读出数据，通过 HRDATA_cipher 组合输出。</p>
+</blockquote>
 
 </section>
 
@@ -328,7 +281,7 @@ RAM接口：
             
                 
 <article class="has-image">
-    <a href="/posts/ram_design/">
+    <a href="/posts/aes_performance/">
         
         
             <div class="article-image">
@@ -339,7 +292,7 @@ RAM接口：
         
 
         <div class="article-details">
-            <h2 class="article-title">RAM_design</h2>
+            <h2 class="article-title">AES_Performance</h2>
         </div>
     </a>
 </article>

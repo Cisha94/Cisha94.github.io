@@ -7,12 +7,12 @@
         <generator>Hugo -- gohugo.io</generator>
         <language>zh-cn</language>
         <lastBuildDate>Mon, 09 Feb 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://cisha.github.io/categories/dissertation/index.xml" rel="self" type="application/rss+xml" /><item>
-        <title>AES_Verilog</title>
+        <title>AHB_Relation</title>
         <link>https://cisha.github.io/posts/ahb_relation/</link>
         <pubDate>Mon, 09 Feb 2026 00:00:00 +0000</pubDate>
         
         <guid>https://cisha.github.io/posts/ahb_relation/</guid>
-        <description>&lt;img src="https://cisha.github.io/3.jpg" alt="Featured image of post AES_Verilog" /&gt;&lt;h1 id=&#34;ahb介绍&#34;&gt;AHB介绍
+        <description>&lt;img src="https://cisha.github.io/3.jpg" alt="Featured image of post AHB_Relation" /&gt;&lt;h1 id=&#34;ahb介绍&#34;&gt;AHB介绍
 &lt;/h1&gt;&lt;pre&gt;&lt;code&gt;AHB是ARM 公司提出的 AMBA 总线协议家族中的一员，它的全称是 Advanced High-performance Bus。
 它是目前片上系统中用于连接高性能、高时钟频率模块（如 CPU、DSP、DMA、片上内存等）的事实标准。
 AHB最显著的特点是地址与数据相位的重叠。当前传输的数据阶段与下一传输的地址阶段并行执行，消除了总线空闲周期，实现了真正的流水线吞吐。在现代SoC设计中，AHB通常作为核心总线层级，下图是架构示意：
@@ -119,6 +119,45 @@ RAM接口：
 	测试数据：每个字节由(test_id + 字节索引)与0xFF按位与生成，形成可预测的递增模式
 	RAM地址：使用test_id * 4 的步进模式，模拟非连续访问场景
 &lt;/code&gt;&lt;/pre&gt;
+</description>
+        </item>
+        <item>
+        <title>RAM_design</title>
+        <link>https://cisha.github.io/posts/ram_design/</link>
+        <pubDate>Fri, 06 Feb 2026 00:00:00 +0000</pubDate>
+        
+        <guid>https://cisha.github.io/posts/ram_design/</guid>
+        <description>&lt;img src="https://cisha.github.io/3.jpg" alt="Featured image of post RAM_design" /&gt;&lt;p&gt;##一、设计概述
+本设计实现了一个基于AHB总线的RAM模块，数据位宽为128位，支持AHB协议中的基本读写操作。内部采用四块32位的BRAM实现128位数据存储，并集成AES-128CTR模式加密模块，实现数据的实时加密写入和解密读出。
+主要端口如下：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;端口名	方向	位宽	功能描述
+HCLK	输入	1	AHB 系统时钟
+HRESETn	输入	1	低有效异步复位
+HSELBRAM输入	1	模块选择信号
+HREADY	输入	1	总线就绪信号
+HTRANS	输入	2	传输类型（IDLE/BUSY/NONSEQ/SEQ）
+HSIZE	输入	2	传输数据宽度（字节数）
+HWRITE	输入	1	写使能
+HADDR	输入	AW:0	地址总线
+HWDATA	输入	127:0	写数据总线
+HREADYOUT输出	1	从设备就绪输出
+HRESP	输出	1	响应类型（OKAY/ERROR）
+HRDATA	输出	127:0	读数据总线&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;##二、时序与控制逻辑
+使用 negedge HRESETn 或 posedge HCLK 进行异步复位与同步控制。
+通过 HWRITE_neg 和 done_encode_neg 边沿检测信号实现写操作与加密完成同步。
+输出 HREADYOUT 由加密模块的 ready_encode 和 ready_decode 共同控制，确保数据准备就绪。
+当模块被选中、总线就绪且传输类型为 NONSEQ 或 SEQ 时，传输有效。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;assign trn_valid = HSELBRAM &amp;amp; HREADY &amp;amp; HTRANS[1];
+写数据流程：
+1.写操作有效时，reg_wr_en 和 reg_haddr 在 HWRITE_neg 或 done_encode_neg 边沿锁存。
+2.加密完成后，根据锁存的使能与地址将 ciphertext 写入对应 BRAM。
+读数据流程：
+读操作直接从 BRAM 中读出数据，通过 HRDATA_cipher 组合输出。&lt;/p&gt;
+&lt;/blockquote&gt;
 </description>
         </item>
         <item>

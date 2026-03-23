@@ -2,9 +2,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://cisha.github.io/posts/ahb_relation/</loc>
-    <lastmod>2026-02-09T00:00:00+00:00</lastmod>
-  </url><url>
     <loc>https://cisha.github.io/tags/blog/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
@@ -24,6 +21,9 @@
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cisha.github.io/tags/</loc>
+    <lastmod>2026-02-09T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>https://cisha.github.io/posts/whole_system/</loc>
     <lastmod>2026-02-09T00:00:00+00:00</lastmod>
   </url><url>
     <loc>https://cisha.github.io/tags/%E5%8D%9A%E5%AE%A2/</loc>
